@@ -1,0 +1,17 @@
+.background-container {
+    display: flex;
+    justify-content: center;
+}
+
+.button-position {
+    margin: 250px 0px 0px 250px;
+    padding: 15px;
+    color: white;
+    background-color: #4000FF;
+    font-size: 24px;
+    border-radius: 5%;
+}
+
+.input-file {
+    visibility: hidden;
+}

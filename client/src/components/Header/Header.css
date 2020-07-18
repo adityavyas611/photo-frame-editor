@@ -1,8 +1,29 @@
-.header {
+.header-container {
     display: flex;
-    justify-content: center;
-    width: 100%;
+    align-items: center;
+    justify-content: space-between;
     background: #4000FF;
+     padding: 0 20px;
+}
+.header {
     color: #ffffff;
     font-size: 18px;
+}
+
+.publish-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.publish-button {
+    color: #4000FF;
+    background: #ffffff;
+    border: none;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 10px;
 }

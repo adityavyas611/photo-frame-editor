@@ -1,0 +1,16 @@
+.editor {
+    height: 100%;
+}
+
+.editor-canvas {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+}
+
+.uploaded-image{
+    margin-top: 20px;
+    max-height: 65%;
+    max-width: 65%;
+} 

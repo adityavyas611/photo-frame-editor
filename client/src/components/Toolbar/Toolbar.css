@@ -1,0 +1,31 @@
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, .5);
+    bottom: 16px;
+    color: #fff;
+    height: 2rem;
+    left: 50%;
+    margin-left: -128px;
+    position: absolute;
+    width: 256px;
+    z-index: 2020;
+  }
+
+.toolbar-button {
+    background-color: transparent;
+    border-width: 0;
+    cursor: pointer;
+    font-size: 14px;
+    height: 32px;
+    text-align: center;
+    width: 2rem;
+}
+
+.toolbar-button :focus {
+    outline: none;
+  }
+.toolbar-button :hover {
+    background-color: #0074d9;
+    color: #fff;
+}

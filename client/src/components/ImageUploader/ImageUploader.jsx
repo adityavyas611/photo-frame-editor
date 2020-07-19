@@ -9,13 +9,14 @@ const ImageUploader = () => {
 
   const handleChange = (event) => {
     const { target: { files } } = event;
-    let reader = new FileReader()
+    let reader = new FileReader();
     reader.readAsDataURL(files[0]);
     reader.onload = () => {
       setImageUrl(reader.result);
     };
     setImage(files[0]);
   };
+  
   return (
     <div>
       <Header showPublish={image}/>

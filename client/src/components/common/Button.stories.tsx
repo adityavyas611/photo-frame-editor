@@ -6,7 +6,7 @@ export default {
   title: 'Button',
 };
 
-export const button = () => <Button buttonName="Show"/>;
+export const button = () => <Button buttonName="Show" />;
 
 button.story = {
   name: 'to show button',

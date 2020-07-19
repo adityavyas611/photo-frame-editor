@@ -1,18 +1,22 @@
 .header-container {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
     background: #4000FF;
-     padding: 0 20px;
+    justify-content: space-between;
 }
+
+.title-container {
+    margin: 0 10px;
+}
+
 .header {
     color: #ffffff;
     font-size: 18px;
 }
 
-.publish-container {
+.button-container {
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
+    margin: 0 10px;
 }
 
 .publish-button {
@@ -26,4 +30,17 @@
     cursor: pointer;
     font-weight: bold;
     border-radius: 10px;
+}
+
+.publish-button:focus {
+    outline: none;
+}
+
+.header-button {
+    background-color: transparent;
+    border-width: 0;
+    cursor: pointer;
+    height: 32px;
+    text-align: center;
+    margin: 0 5px;
 }

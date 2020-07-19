@@ -16,10 +16,14 @@ const ImageUploader = () => {
     };
     setImage(files[0]);
   };
+
+  const removeImage = () => {
+    setImage(null);
+  };
   
   return (
     <div>
-      <Header showPublish={image}/>
+      <Header showPublish={image} handleDataAction={removeImage}/>
       {!image ?
         <div className="background-container">
           <label htmlFor="files" className="button-position">Upload</label>

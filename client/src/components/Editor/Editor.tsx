@@ -62,7 +62,7 @@ const Editor = ({ imgData, imgUrl }: Props) => {
 		}
 	}, [imgUrl]);
 
-	const handleToolbarClick = (event) => {
+	const handleToolbarClick = (event: any) => {
 		const { target } = event;
 		const buttonAction = target.getAttribute('data-action');
 		switch (buttonAction) {

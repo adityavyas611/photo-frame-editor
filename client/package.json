@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@types/testing-library__dom": "^7.5.0",
     "cropperjs": "^1.5.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -41,6 +41,8 @@
     "@storybook/addons": "^5.3.19",
     "@storybook/preset-create-react-app": "^3.1.4",
     "@storybook/react": "^5.3.19",
-    "typescript": "^3.9.7"
+    "@testing-library/jest-dom": "^5.11.1",
+    "@testing-library/react": "^10.4.7",
+    "@types/react-router-dom": "^5.1.5"
   }
 }

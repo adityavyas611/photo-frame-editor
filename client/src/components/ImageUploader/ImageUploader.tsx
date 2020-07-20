@@ -1,20 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import Header from '../Header/Header';
 import Editor from '../Editor/Editor';
 import './ImageUploader.css';
 
 const ImageUploader = () => {
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState<File| null>();
   const [imageUrl, setImageUrl] = useState<string | ArrayBuffer | null>('');
 
-  const handleChange = (event) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { target: { files } } = event;
     let reader: FileReader = new FileReader();
-    reader.readAsDataURL(files[0]);
-    reader.onload = () => {
-      setImageUrl(reader.result);
-    };
-    setImage(files[0]);
+    if(files && files.length) {
+      reader.readAsDataURL(files[0]);
+      reader.onload = () => {
+        setImageUrl(reader.result);
+      };
+      setImage(files[0]);
+    }
   };
 
   const removeImage = () => {

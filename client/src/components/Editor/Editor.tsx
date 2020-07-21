@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, RefObject } from 'react';
 import Cropper from 'cropperjs';
 import Toolbar from '../Toolbar/Toolbar';
 import './Editor.css';
+import '../Toolbar/Toolbar.css';
 import 'cropperjs/dist/cropper.css';
 
 type Props = {
@@ -13,17 +14,20 @@ const Editor = ({ imgData, imgUrl }: Props) => {
 	const [cropping, setCropping] = useState(false);
 	const [cropped, setCropped] = useState(false);
 	const [cropper, setCropper] = useState<Cropper>();
+	const [frame, setFrame] = useState(false);
 
 	const imageRef = useRef<HTMLImageElement>(null);
+	const frameRef = useRef<HTMLImageElement>(null);
 
-	const intitalizeCropper = () => {
-		if (imageRef.current) {
-			const currentCropper = new Cropper(imageRef.current, {
+	const intitalizeCropper = (ref: RefObject<HTMLImageElement>) => {
+		if (ref && ref.current) {
+			const currentCropper = new Cropper(ref.current, {
 				autoCrop: false,
 				dragMode: 'move',
 				background: false,
 				minContainerWidth: 1000,
 				minContainerHeight: 600,
+				toggleDragModeOnDblclick: false,
 				crop: ({ detail }) => {
 					if (detail.width > 0 && detail.height > 0) {
 						setCropping(true);
@@ -42,7 +46,7 @@ const Editor = ({ imgData, imgUrl }: Props) => {
 
 	const cropImage = () => {
 		if (cropping && cropper && imageRef && imageRef.current) {
-			imageRef.current.src = cropper.getCroppedCanvas().toDataURL();
+			imageRef.current.src = cropper.getCroppedCanvas({}).toDataURL();
 			setCropped(true);
 			setCropping(false);
 		}
@@ -54,13 +58,25 @@ const Editor = ({ imgData, imgUrl }: Props) => {
 			cropper.clear();
 			setCropping(false);
 		}
-	}
+	};
+
+	const showFrame = () => {
+		setFrame(!frame);
+	};
 
 	useEffect(() => {
-		if (imgUrl) {
-			intitalizeCropper();
+		if (imgUrl && imageRef) {
+			stopCropper();
+			intitalizeCropper(imageRef);
 		}
 	}, [imgUrl]);
+
+	useEffect(() => {
+		if (frame && frameRef) {
+			stopCropper();
+			intitalizeCropper(frameRef);
+		}
+	}, [frame]);
 
 	const handleToolbarClick = (event: any) => {
 		const { target } = event;
@@ -92,9 +108,13 @@ const Editor = ({ imgData, imgUrl }: Props) => {
 	return (
 		<div className="editor">
 			<div className="editor-canvas">
-				<img alt={name} src={imgUrl ? String(imgUrl) : ''} className="uploaded-image" ref={imageRef} />
+					<img alt={name} src={imgUrl ? String(imgUrl) : ''} className={frame ? "frame-image" : "uploaded-image"} ref={imageRef} />
+					{frame ? <img alt="frame" src="./images/goldframe.png" ref={frameRef} className="image-frame" /> : null}
 			</div>
-			{!cropped ? <Toolbar handleDataAction={handleToolbarClick} isCropping={cropping} /> : null}
+			{!cropped ? <Toolbar handleDataAction={handleToolbarClick} isCropping={cropping} />
+				: <div className="toolbar">
+					<img className="toolbar-button" src="./images/frame.png" alt="Select Frame" title="Select Frame" onClick={showFrame} />
+				</div>}
 		</div>
 	);
 };

@@ -4,7 +4,7 @@ import Editor from '../Editor/Editor';
 import './ImageUploader.css';
 
 const ImageUploader = () => {
-  const [image, setImage] = useState<File| null>();
+  const [image, setImage] = useState<File| null>(null);
   const [imageUrl, setImageUrl] = useState<string | ArrayBuffer | null>('');
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -21,6 +21,7 @@ const ImageUploader = () => {
 
   const removeImage = () => {
     setImage(null);
+    setImageUrl(null);
   };
 
   return (

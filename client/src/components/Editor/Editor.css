@@ -10,7 +10,21 @@
 }
 
 .uploaded-image {
-    margin-top: 20px;
+    margin-top: 280px;
     max-height: 65%;
     max-width: 65%;
+    z-index: -10;
+    position: absolute;
 }
+
+.frame-image {
+    max-height: 65%;
+    max-width: 65%;
+    z-index: -10;
+    position: absolute;
+}
+
+.image-frame {
+    z-index: 10;
+    position: absolute;
+}   

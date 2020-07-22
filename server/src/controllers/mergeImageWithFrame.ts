@@ -2,7 +2,7 @@ import express from 'express';
 import { createCanvas, loadImage } from "canvas";
 import logger from '../utils/logger';
 
-const createImageUrlFromCanvas = async (userImage: string, frameImage: string) => {
+export const createImageUrlFromCanvas = async (userImage: string, frameImage: string) => {
   try {
   // loading both the images in canvas
   const loadUserImage = await loadImage(userImage);

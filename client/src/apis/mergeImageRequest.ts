@@ -6,7 +6,7 @@ import { BACKEND_URI } from '../const';
  * @description - The function is used to send the images and recieve the merged image.
  */
 
-const mergeImageRequest = async (userImages) => {
+const mergeImageRequest = async (userImages: object) => {
   const res = await fetch(`${BACKEND_URI}image/mergeImages`, {
     method: 'POST',
     headers: {'Content-type': 'application/json'},

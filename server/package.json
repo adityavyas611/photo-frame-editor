@@ -29,6 +29,8 @@
     },
     "scripts": {
         "build": "tsc",
-        "start": "yarn build && node dist/server.js"
+        "start": "yarn build && node dist/server.js",
+        "test": "jest",
+        "coverage": "jest --coverage"
     }
 }

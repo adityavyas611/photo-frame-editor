@@ -9,5 +9,5 @@
   },
   "include": ["src"],
   "lib": ["ES2015"],
-
+  "exclude": ["node_modules", "**/*.test.ts"]
 }

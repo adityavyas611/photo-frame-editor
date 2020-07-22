@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef, RefObject } from 'react';
-import Cropper from 'cropperjs';
+import React, { RefObject } from 'react';
 import Toolbar from '../Toolbar/Toolbar';
 import './Editor.css';
 import '../Toolbar/Toolbar.css';
@@ -8,102 +7,16 @@ import 'cropperjs/dist/cropper.css';
 type Props = {
 	imgData: any,
 	imgUrl: string | ArrayBuffer | null,
+	frame?: boolean,
+	imageRef?: RefObject<HTMLImageElement>,
+	frameRef?: RefObject<HTMLImageElement>,
+	cropped?: boolean,
+	handleToolbarClick?: (event: any) => void,
+	cropping?: boolean,
+	showFrame?: () => void
 };
 
-const Editor = ({ imgData, imgUrl }: Props) => {
-	const [cropping, setCropping] = useState(false);
-	const [cropped, setCropped] = useState(false);
-	const [cropper, setCropper] = useState<Cropper>();
-	const [frame, setFrame] = useState(false);
-
-	const imageRef = useRef<HTMLImageElement>(null);
-	const frameRef = useRef<HTMLImageElement>(null);
-
-	const intitalizeCropper = (ref: RefObject<HTMLImageElement>) => {
-		if (ref && ref.current) {
-			const currentCropper = new Cropper(ref.current, {
-				autoCrop: false,
-				dragMode: 'move',
-				background: false,
-				minContainerWidth: 1000,
-				minContainerHeight: 600,
-				toggleDragModeOnDblclick: false,
-				crop: ({ detail }) => {
-					if (detail.width > 0 && detail.height > 0) {
-						setCropping(true);
-					}
-				},
-			});
-			setCropper(currentCropper);
-		}
-	};
-
-	const stopCropper = () => {
-		if (cropper) {
-			cropper.destroy();
-		}
-	};
-
-	const cropImage = () => {
-		if (cropping && cropper && imageRef && imageRef.current) {
-			imageRef.current.src = cropper.getCroppedCanvas({}).toDataURL();
-			setCropped(true);
-			setCropping(false);
-		}
-		stopCropper();
-	};
-
-	const clearCrop = () => {
-		if (cropper) {
-			cropper.clear();
-			setCropping(false);
-		}
-	};
-
-	const showFrame = () => {
-		setFrame(!frame);
-	};
-
-	useEffect(() => {
-		if (imgUrl && imageRef) {
-			stopCropper();
-			intitalizeCropper(imageRef);
-		}
-	}, [imgUrl]);
-
-	useEffect(() => {
-		if (frame && frameRef) {
-			stopCropper();
-			intitalizeCropper(frameRef);
-		}
-	}, [frame]);
-
-	const handleToolbarClick = (event: any) => {
-		const { target } = event;
-		const buttonAction = target.getAttribute('data-action');
-		switch (buttonAction) {
-			case 'move':
-			case 'crop':
-				cropper && cropper.setDragMode(buttonAction);
-				break;
-			case 'rotate-left':
-				cropper && cropper.rotate(-90);
-				break;
-			case 'rotate-right':
-				cropper && cropper.rotate(90);
-				break;
-			case 'scale':
-				cropper && cropper.scale(-cropper.getData().scaleX, -cropper.getData().scaleY);
-				break;
-			case 'crop-tick':
-				cropImage();
-				break;
-			case 'crop-cancel':
-				clearCrop();
-				break;
-			default:
-		}
-	}
+const Editor = ({ imgData, imgUrl, frame, imageRef, frameRef, cropped, handleToolbarClick, cropping, showFrame }: Props) => {
 	const { name } = imgData;
 	return (
 		<div className="editor">
@@ -117,6 +30,16 @@ const Editor = ({ imgData, imgUrl }: Props) => {
 				</div>}
 		</div>
 	);
+};
+
+Editor.defaultProps = {
+	frame: false,
+	imageRef: null,
+	frameRef: null,
+	cropped: false,
+	handleToolbarClick: () => null,
+	cropping: false,
+	showFrame: () => null
 };
 
 export default Editor;

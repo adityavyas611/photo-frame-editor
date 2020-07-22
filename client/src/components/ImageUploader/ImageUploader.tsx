@@ -6,19 +6,21 @@ import './ImageUploader.css';
 import { mergeImageRequest } from '../../apis/mergeImageRequest';
 
 const ImageUploader = () => {
-  const [image, setImage] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | ArrayBuffer | null>('');
+  const [image, setImage] = useState<File | null>(null); // to set the uploaded image
+  const [imageUrl, setImageUrl] = useState<string | ArrayBuffer | null>(''); // to set the url of the image
 
-  const [cropping, setCropping] = useState(false);
-  const [cropped, setCropped] = useState(false);
-  const [cropper, setCropper] = useState<Cropper>();
-  const [frame, setFrame] = useState(false);
+  const [cropping, setCropping] = useState(false); // to set the cropping when user select crop option
+  const [cropped, setCropped] = useState(false); // to set value when user completes cropping operation
+  const [cropper, setCropper] = useState<Cropper>(); // to create cropper for the image element
+  const [frame, setFrame] = useState(false); // to render frame on the screen
 
-  const imageRef = useRef<HTMLImageElement>(null);
-  const frameRef = useRef<HTMLImageElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null); // Reference to the uploaded image
+  const frameRef = useRef<HTMLImageElement>(null); // Reference to the frame image
 
   const intitalizeCropper = (ref: RefObject<HTMLImageElement>) => {
     if (ref && ref.current) {
+
+      // creating cropper 
       const currentCropper = new Cropper(ref.current, {
         autoCrop: false,
         dragMode: 'move',
@@ -36,32 +38,49 @@ const ImageUploader = () => {
     }
   };
 
+  /**
+   * @description -  To Destroy the croppper once all operation are performed
+   */
   const stopCropper = () => {
     if (cropper) {
       cropper.destroy();
     }
   };
-
+   /**
+   * @description -  To set the state when user performs cropping operation
+   */
   const cropImage = () => {
     if (cropping && cropper && imageRef && imageRef.current) {
-      imageRef.current.src = cropper.getCroppedCanvas({}).toDataURL();
+      imageRef.current.src = cropper.getCroppedCanvas().toDataURL();
       setCropped(true);
       setCropping(false);
     }
     stopCropper();
   };
 
+   /**
+   * @description -  To Remove the croppper from cropping state, when user completes
+   *                 cropping image
+   */
   const clearCrop = () => {
     if (cropper) {
       cropper.clear();
       setCropping(false);
     }
   };
-
+  
+  /**
+   * @description -  To render frame onScreen
+   */
   const showFrame = () => {
     setFrame(!frame);
   };
 
+  /**
+   * @description - The function to get data-action from the image and perform operation in the
+   *                cropper.
+   * @param event - To handle the clicks by user in the toolbar and perform action based on event
+   */
   const handleToolbarClick = (event: any) => {
     const { target } = event;
     const buttonAction = target.getAttribute('data-action');
@@ -89,6 +108,10 @@ const ImageUploader = () => {
     }
   }
 
+  /**
+   * @description - To handle the change in file upload element
+   * @param event - To handle the file upload operation, reading file using Filereader class
+   */
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { target: { files } } = event;
     let reader: FileReader = new FileReader();
@@ -101,16 +124,26 @@ const ImageUploader = () => {
     }
   };
 
+  /**
+   * @description - To remove the image from the editor and reset the application
+   */
   const removeImage = () => {
     setImage(null);
     setImageUrl(null);
   };
 
+  /**
+   * @description - To handle the publish action and send images for merge and download the merged image.
+   */
   const publishImage = async () => {
     if(imageRef && imageRef.current && frameRef && frameRef.current) {
       const editorImages = {userImage: imageRef.current.src, frameImage: frameRef.current.src};
       const resImage = await mergeImageRequest(editorImages);
-      console.log(resImage);
+      if(resImage.data) {
+        // setting the data to data:application/octet-steam to directly download the base64 encoded file
+        const downloadImage = resImage.data.replace(/^data:image\/[^;]+/, 'data:application/octet-stream');
+        window.open(downloadImage);
+      }
     }
   };
 

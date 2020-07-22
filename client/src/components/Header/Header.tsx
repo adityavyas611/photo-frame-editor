@@ -5,9 +5,10 @@ import './Header.css';
 type Props = {
 	showPublish?: boolean,
 	handleDataAction?: (e: MouseEvent<HTMLImageElement>) => void,
+	publishImage?: (event: MouseEvent<HTMLInputElement>) => void
 };
 
-const Header = ({ showPublish, handleDataAction }: Props) => (
+const Header = ({ showPublish, handleDataAction, publishImage }: Props) => (
 	<div className="header-container">
 		<div className="title-container">
 			<h3 className="header">Photon: A Picture Editing Tool</h3>
@@ -15,7 +16,7 @@ const Header = ({ showPublish, handleDataAction }: Props) => (
 		{showPublish ?
 			<div className="button-container">
 				<img className="header-button" data-action="remove" title="Remove" alt="Move" src="./images/trash.png" onClick={handleDataAction} />
-				<Button buttonName="Publish" className="publish-button" />
+				<Button buttonName="Publish" className="publish-button" handleClick={publishImage} />
 			</div>
 			: null}
 	</div>
